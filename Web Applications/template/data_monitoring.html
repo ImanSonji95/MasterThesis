@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Data Monitoring</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src='Chart.min.js'></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font: 8pt arial;
+    }
+
+    .tags {
+      display: grid;
+      grid-auto-flow: row;
+      grid-row-gap: 10px;
+      font-size: 12pt;
+    }
+
+    .multiselect {
+      width: 200px;
+      margin-top: 0.2cm;
+      font-size: 10pt;
+    }
+
+    .flex {
+      display: flex;
+      justify-content: center;
+    } 
+
+    #checkboxes {
+      font-size: 12pt;
+    }
+
+    #checkboxes label {
+      padding-left: 0.4cm;
+      padding-bottom: 5cm;
+      margin-bottom: 5cm;
+    }
+
+    #myChart {
+      /* margin-left: 400px;
+         border-style: dotted; */
+      float: right;
+      margin-right: 300px;
+    }
+    #plotly-table {
+      display:inline-block; 
+      /* margin-right: 5px; */
+    }
+    #plotly-timeseries-medication {
+      /* border-style: dotted;
+      margin-left: 340px; */
+      display:inline-block;
+    }
+    #plotly-timeseries-vitals{
+      margin-left: 80px;
+    }
+  </style>
+</head>
+
+<body onload="onload_function()">
+  <h1>Patient Name: <span id="place_for_name"></span></h1>
+  <div class="tags">
+    <div> <b>Age: </b> <span id="place_for_age"></span></div>
+    <div> <b>Gender: </b> <span id="place_for_gender"></span></div>
+    <div> <b>Weight: </b> <span id="place_for_weight"></span></div>
+    <div> <b>Birthdate: </b> <span id="place_for_birthdate"></span></div>
+  </div>
+  <h1>Patient Data:</h1>
+  <div class="flex">
+    <div id="plotly-timeseries-medication"></div>
+    <div id="plotly-table"></div>
+  </div>
+  <div id="plotly-timeseries-vitals" ></div>
+
+</body>
+<script>
+
+
+  function onload_function() {
+    document.getElementById("place_for_name").innerHTML = "{{name}}";
+    document.getElementById("place_for_gender").innerHTML = "{{gender}}";
+    document.getElementById("place_for_age").innerHTML = "{{age}}";
+    document.getElementById("place_for_weight").innerHTML = "{{weight}}";
+    document.getElementById("place_for_birthdate").innerHTML = "{{birthdate}}";
+  }
+
+  var table = {{ med_table | safe}};
+  Plotly.plot('plotly-table', table, {});
+  
+  var graph_medication = {{ med_plot_json | safe}};
+  Plotly.plot('plotly-timeseries-medication', graph_medication, {});
+
+  var graph_vitals = {{ plot_json | safe }};
+  Plotly.plot('plotly-timeseries-vitals', graph_vitals, {});
+
+</script>
+
+</html>

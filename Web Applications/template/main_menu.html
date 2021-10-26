@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+.flex {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-item + .flex-item {
+  margin-left: 10px;
+}
+
+.button {
+  margin-top: 10px;
+  background-color: #0066FF;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button1 {background-color: #4CAF50;} /* Green */
+.button2 {background-color: #008CBA;} /* Blue */
+
+</style>
+</head>
+<body>
+<h1>Main Menu</h1>
+<h2 style="text-align: center;">User-Centered Medication Assistance Systsem</h2>
+<div style="text-align: center">
+  <a href="1">
+    <img src="pill_dispenser_1.png" style="display:inline;width: 18%;"/>
+  </a>
+  <a href="2">
+    <img src="pill_dispenser_2.png" style="display:inline;padding-bottom: 30px;width: 100;"/>
+  </a>
+</div>
+<p style="margin: 2px 600px;" >Choose Application:</p>
+
+<!-- <div class="flex">
+  <button class="button button1">Context Model</button>
+  <button class="button button2">Data Monitoring</button>
+  </form>
+</div> -->
+<div class="flex">
+  <!-- <form method="POST" action="/"> -->
+    <a href=context_model ><button style="background-color:#0066FF" class="button">Context Model</button></a></p>
+    <a href=data_monitoring ><button style="background-color:#4CAF50" class="button">Vitals Monitoring</button></a></p>
+  <!-- </form> -->
+</div>
+
+</body>
+</html>

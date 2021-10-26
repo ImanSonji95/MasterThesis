@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Context Model Visualizations</title>
+      <style type="text/css">
+         html,
+         body {
+         font: 12pt arial;
+         }
+         #viz {
+         width: 1500px;
+         height: 1100px;
+         margin-left: 200px;
+         font: 22pt arial;
+         display: inline-block;
+         }
+         select {
+         display: inline-block;
+         position: relative;
+         font-family: Arial;
+         height: 35px;
+         width: 150px;
+         font-size: 20px;
+         margin-top: 10px;
+         }
+         select:focus {
+         display: inline-block;
+         min-width: 200px;
+         width: auto;
+         }
+         #drop {
+         display: inline-block;
+         }
+         #start {
+         display: inline-block;
+         display: none;
+         }
+         #button {
+         display: inline-block;
+         display: none;
+         background-color: #f44336;;
+         }
+         #meta_model_id {
+          background-color: lightgrey;
+          width: 300px;
+          border: 5px solid green;
+          margin: 20px;
+          display: none;
+        }
+        #context_model_id {
+          background-color: lightgrey;
+          width: 300px;
+          border: 5px solid green;
+          margin: 20px;
+          display: none;
+        }
+        #correlation_id {
+          background-color: lightgrey;
+          width: 300px;
+          border: 5px solid green;
+          margin: 20px;
+          display: none;
+        }
+      </style>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+   </head>
+   <body>
+      <h1 style="font-size:250%;">Context Model Visualizations</h1>
+      <p>
+         The purpose of this application is to display the context models in the form of labeled graph.
+      </p>
+      <div class="dropdown" id="drop">
+         <select id="myDropdown" onchange="draw(this.value);">
+            <option value="" selected disabled>Select Model</option>
+            <option value="1">Meta Model</option>
+            <option value="2">Context Model</option>
+            <option value="3">System Overview</option>
+            <option value="4">Context Model Instant</option>
+            <option value="5">History of Node</option>
+            <option value="6">Context Correlations</option>
+         </select>
+      </div>
+      <input type="date" id="start" name="trip-start"
+         value="2021-07-12"
+         min="2021-07-12" max="2022-12-31">
+      <!-- <button id="button" onclick="context_model_instant()">Submit</button> -->
+      <input id="button" type="submit" value="Submit" onclick="context_model_instant();" />
+      <p1 id="meta_model_id">Information! The meta model is a description of the data model. It describes what information
+        avilable in the context model and how they are interconnected.
+      </p1>
+      <p2 id="context_model_id">Information! <br> Number of nodes: 34,510 
+        <br> Number of relationships: 34,600
+      </p2>
+      <p3 id="correlation_id">Information! Weighted graph that shows correlations between different contexts obtained
+        by the context learning model.
+      </p3>
+      <div id="viz" ></div>
+   </body>
+   <script type="text/javascript">
+      function draw_graph(labels, relations, cypher_query) {
+        var config = {
+          container_id: "viz",
+          server_url: "neo4j://localhost:11005",
+          server_user: "neo4j",
+          server_password: "middleware",
+          labels: labels,
+          relationships: relations,
+          initial_cypher: cypher_query
+        };
+        var viz = new NeoVis.default(config);
+        viz.render();
+      }
+      function draw() {
+        var menu = document.getElementById("myDropdown").value;
+        var datePicker = document.getElementById("start");
+        var b = document.getElementById("button");
+        var meta_mode_info = document.getElementById("meta_model_id");
+        var context_model_info = document.getElementById("context_model_id");
+        var correlations_info = document.getElementById("correlation_id");
+        if (menu == "1") {
+          datePicker.style.display = "none";
+          b.style.display = "none";
+          meta_mode_info.style.display = "inline-block";
+          context_model_info.style.display = "none";
+          labels = {
+            "META": {
+              "caption": "name",
+              "size": 0.8
+            },
+            "user_content_view": {
+              "caption": "name",
+              "size": 0.8
+            },
+            "static": {
+              "caption": "name",
+              "size": 0.8
+            },
+            "user_parameter": {
+              "caption": "name",
+              "size": 1
+            },
+            "font": {
+              "size": 20
+            }
+          }
+          relationships = {}
+          cypher_query = 'MATCH p=(n:META)-[r]-(m:META) RETURN p'
+          draw_graph(labels, relationships, cypher_query)
+        }
+        else if (menu == "2") {
+          datePicker.style.display = "none";
+          b.style.display = "none";
+          meta_mode_info.style.display = "none";
+          context_model_info.style.display = "inline-block";
+          labels = {}
+          relationships = {}
+          cypher_query = 'MATCH (n:Context)-[r]-(m:Context) WHERE NOT n.name contains "delta" RETURN *'
+          draw_graph(labels, relationships, cypher_query)
+        }
+        else if (menu == "3") {
+          datePicker.style.display = "none";
+          b.style.display = "none";
+          meta_mode_info.style.display = "none";
+          context_model_info.style.display = "none";
+          labels = {
+            "Overview": {
+              "caption": "name",
+              "size": 0.8
+            },
+            "font": {
+              "size": 20
+            }
+          }
+          relationships = {}
+          cypher_query = 'MATCH p=(n:Overview)-[r]-(m:Overview) RETURN p'
+          draw_graph(labels, relationships, cypher_query)
+        }
+        else if (menu == "4") {
+          datePicker.style.display = "inline-block";
+          b.style.display = "inline-block";
+          meta_mode_info.style.display = "none";
+          context_model_info.style.display = "none";
+        }
+        else if (menu == 5){
+          datePicker.style.display = "none";
+          b.style.display = "none";
+          meta_mode_info.style.display = "none";
+          context_model_info.style.display = "none";
+          labels = {
+            "Delta": {
+              "caption": "name",
+              "title_properties": ["Graph_Type", "mean"]
+            },
+            "user_content_view": {
+              "caption": "name",
+              "title_properties": ["Graph_Type", "mean"]
+            },
+            "Context": {
+              "caption": "name",
+              "title_properties": ["Graph_Type", "mean"]
+            }
+          }
+          relationships = {}
+          cypher_query = 'MATCH (a:Context)-[r]-(b:Context) WHERE a.name= b.corresponding_node = "heart_rate" RETURN *'
+          draw_graph(labels, relationships, cypher_query)
+        }
+        else if (menu == 6){
+          datePicker.style.display = "none";
+          b.style.display = "none";
+          meta_mode_info.style.display = "none";
+          context_model_info.style.display = "none";
+          correlations_info.style.display = "inline-block"
+          labels = {
+            "Context": {
+              "caption": "name"
+            }
+          }
+          relationships = {
+            "RELATED_TO": {
+              "thickness": "weight",
+              "caption": "weight"
+            }
+          }
+          cypher_query = 'MATCH (n:Correlation)-[r]-(m:Correlation) where r.weight > 0.8 RETURN *'
+          draw_graph(labels, relationships, cypher_query)
+        }
+      }
+      function context_model_instant(){
+        var date = document.getElementById("start").value;
+        labels = {
+            "end_parameter": {
+              "caption": "name",
+              "title_properties": ["values", "value"]
+            },
+            "user_content_view": {
+              "caption": "name"
+            },
+            "user_parameter": {
+              "caption": "name"
+            },
+            "static": {
+              "caption": "name"
+            }
+          }
+          relationships = {}
+          cypher_query = 'MATCH (n:user:Init_Graph)-[r:HAS_A]-(m:Context {Graph_Type: "2021-03-15"})-\
+          [q]-(f:Context:static {Graph_Type: "2021-03-15"})-[h]-\
+          (g:Context {Graph_Type:"' + date + '"})  return *'
+          draw_graph(labels, relationships, cypher_query);      
+      }
+   </script>
+</html>

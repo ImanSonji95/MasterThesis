@@ -1,0 +1,192 @@
+context_1,context_2,weight
+{'activity': 'walking'},{'location': 'outdoors'},1.0
+{'location': 'outdoors'},"{'heart_rate': '[101.89, 113.33]'}",0.78
+{'location': 'outdoors'},"{'blood_pressure': '[86.7, 96.5]'}",0.74
+{'location': 'outdoors'},"{'respiration_rate': '[25.09, 27.95]'}",0.78
+{'activity': 'resting'},{'location': 'indoors'},1.0
+"{'heart_rate': '[57.51, 68.78]'}",{'location': 'indoors'},1.0
+"{'respiration_rate': '[14.0, 16.97]'}",{'location': 'indoors'},1.0
+{'activity': 'resting'},"{'heart_rate': '[57.51, 68.78]'}",0.52
+"{'blood_pressure': '[86.7, 96.5]'}",{'activity': 'resting'},0.89
+{'activity': 'resting'},"{'respiration_rate': '[14.0, 16.97]'}",0.53
+{'activity': 'sleeping'},{'location': 'indoors'},1.0
+{'activity': 'sleeping'},"{'heart_rate': '[57.51, 68.78]'}",1.0
+{'activity': 'sleeping'},"{'respiration_rate': '[14.0, 16.97]'}",1.0
+{'activity': 'walking'},"{'heart_rate': '[101.89, 113.33]'}",1.0
+{'activity': 'walking'},"{'blood_pressure': '[86.7, 96.5]'}",0.77
+{'activity': 'walking'},"{'respiration_rate': '[25.09, 27.95]'}",1.0
+{'activity': 'running'},{'location': 'outdoors'},1.0
+{'activity': 'running'},"{'heart_rate': '[133.23, 144.91]'}",1.0
+{'activity': 'running'},"{'blood_pressure': '[86.7, 96.5]'}",0.63
+{'activity': 'running'},"{'respiration_rate': '[32.83, 35.89]'}",1.0
+"{'heart_rate': '[76.88, 92.47]'}",{'location': 'indoors'},1.0
+"{'heart_rate': '[76.88, 92.47]'}",{'activity': 'resting'},1.0
+"{'heart_rate': '[76.88, 92.47]'}","{'blood_pressure': '[86.7, 96.5]'}",0.73
+"{'respiration_rate': '[19.6, 22.73]'}","{'heart_rate': '[76.88, 92.47]'}",1.0
+"{'heart_rate': '[76.88, 92.47]'}","{'medicines': ""['Calcium', 'Hydrochlorothiazid']""}",0.63
+"{'heart_rate': '[76.88, 92.47]'}","{'medicines': ""['Ramipril', 'Risperidon']""}",0.61
+"{'heart_rate': '[101.89, 113.33]'}",{'location': 'indoors'},0.84
+"{'heart_rate': '[101.89, 113.33]'}",{'activity': 'resting'},0.84
+"{'heart_rate': '[101.89, 113.33]'}","{'blood_pressure': '[86.7, 96.5]'}",0.7
+"{'heart_rate': '[101.89, 113.33]'}","{'respiration_rate': '[25.09, 27.95]'}",1.0
+"{'heart_rate': '[101.89, 113.33]'}",{'medication_rate': 0.75},0.64
+"{'heart_rate': '[101.89, 113.33]'}",{'medication_rate': 1.0},0.59
+"{'heart_rate': '[101.89, 113.33]'}","{'medicines': ""['Levothyroxin', 'Pantoprazol']""}",0.83
+"{'heart_rate': '[133.23, 144.91]'}",{'location': 'indoors'},0.75
+"{'heart_rate': '[133.23, 144.91]'}",{'activity': 'resting'},0.75
+"{'heart_rate': '[133.23, 144.91]'}","{'blood_pressure': '[86.7, 96.5]'}",0.7
+"{'heart_rate': '[133.23, 144.91]'}","{'respiration_rate': '[32.83, 35.89]'}",1.0
+"{'heart_rate': '[133.23, 144.91]'}",{'medication_rate': 0.75},0.7
+"{'heart_rate': '[133.23, 144.91]'}",{'medication_rate': 1.0},0.7
+"{'heart_rate': '[57.51, 68.78]'}","{'respiration_rate': '[14.0, 16.97]'}",1.0
+"{'blood_pressure': '[62.06, 76.74]'}",{'location': 'indoors'},1.0
+"{'blood_pressure': '[62.06, 76.74]'}",{'activity': 'sleeping'},0.66
+"{'blood_pressure': '[62.06, 76.74]'}","{'heart_rate': '[57.51, 68.78]'}",1.0
+"{'blood_pressure': '[62.06, 76.74]'}","{'respiration_rate': '[14.0, 16.97]'}",1.0
+"{'blood_pressure': '[75.52, 85.67]'}",{'location': 'indoors'},0.98
+"{'blood_pressure': '[75.52, 85.67]'}",{'activity': 'resting'},0.54
+"{'blood_pressure': '[75.52, 85.67]'}","{'heart_rate': '[57.51, 68.78]'}",0.81
+"{'blood_pressure': '[75.52, 85.67]'}","{'respiration_rate': '[14.0, 16.97]'}",0.81
+"{'blood_pressure': '[86.7, 96.5]'}",{'location': 'indoors'},0.93
+"{'blood_pressure': '[86.7, 96.5]'}",{'medication_rate': 0.75},0.53
+"{'blood_pressure': '[96.01, 108.84]'}",{'location': 'indoors'},0.92
+"{'blood_pressure': '[96.01, 108.84]'}",{'activity': 'resting'},0.92
+"{'blood_pressure': '[96.01, 108.84]'}",{'medication_rate': 0.75},0.52
+"{'blood_pressure': '[96.01, 108.84]'}",{'medication_rate': 1.0},0.52
+"{'blood_pressure': '[96.01, 108.84]'}","{'medicines': ""['Ramipril', 'Risperidon']""}",0.56
+"{'blood_pressure': '[96.01, 108.84]'}","{'medicines': ""['Levothyroxin', 'Pantoprazol']""}",0.54
+"{'respiration_rate': '[32.83, 35.89]'}",{'location': 'indoors'},0.75
+"{'respiration_rate': '[32.83, 35.89]'}",{'activity': 'resting'},0.75
+"{'respiration_rate': '[32.83, 35.89]'}","{'blood_pressure': '[86.7, 96.5]'}",0.7
+"{'respiration_rate': '[32.83, 35.89]'}",{'medication_rate': 0.75},0.7
+"{'respiration_rate': '[32.83, 35.89]'}",{'medication_rate': 1.0},0.7
+"{'respiration_rate': '[25.09, 27.95]'}",{'location': 'indoors'},0.84
+"{'respiration_rate': '[25.09, 27.95]'}",{'activity': 'resting'},0.84
+"{'respiration_rate': '[25.09, 27.95]'}","{'blood_pressure': '[86.7, 96.5]'}",0.7
+"{'respiration_rate': '[25.09, 27.95]'}",{'medication_rate': 0.75},0.64
+"{'respiration_rate': '[25.09, 27.95]'}",{'medication_rate': 1.0},0.59
+"{'respiration_rate': '[25.09, 27.95]'}","{'medicines': ""['Levothyroxin', 'Pantoprazol']""}",0.83
+"{'respiration_rate': '[19.6, 22.73]'}",{'location': 'indoors'},1.0
+"{'respiration_rate': '[19.6, 22.73]'}",{'activity': 'resting'},1.0
+"{'respiration_rate': '[19.6, 22.73]'}","{'blood_pressure': '[86.7, 96.5]'}",0.73
+"{'respiration_rate': '[19.6, 22.73]'}","{'medicines': ""['Calcium', 'Hydrochlorothiazid']""}",0.63
+"{'respiration_rate': '[19.6, 22.73]'}","{'medicines': ""['Ramipril', 'Risperidon']""}",0.61
+"{'skin_temprature': '[34.79, 35.49]'}",{'location': 'indoors'},0.96
+"{'skin_temprature': '[34.79, 35.49]'}",{'activity': 'resting'},0.59
+"{'skin_temprature': '[34.79, 35.49]'}","{'heart_rate': '[57.51, 68.78]'}",0.66
+"{'skin_temprature': '[34.79, 35.49]'}","{'respiration_rate': '[14.0, 16.97]'}",0.66
+"{'temperature': '[28.15, 29.94]'}","{'skin_temprature': '[34.79, 35.49]'}",0.89
+"{'humidity': '[42.67, 46.25]'}","{'skin_temprature': '[34.79, 35.49]'}",0.78
+"{'skin_temprature': '[31.74, 32.16]'}",{'location': 'indoors'},0.96
+"{'skin_temprature': '[31.74, 32.16]'}",{'activity': 'resting'},0.65
+"{'skin_temprature': '[31.74, 32.16]'}","{'heart_rate': '[57.51, 68.78]'}",0.67
+"{'skin_temprature': '[31.74, 32.16]'}","{'respiration_rate': '[14.0, 16.97]'}",0.67
+"{'skin_temprature': '[33.0, 33.0]'}",{'location': 'indoors'},0.97
+"{'skin_temprature': '[33.0, 33.0]'}",{'activity': 'resting'},0.64
+"{'skin_temprature': '[33.0, 33.0]'}","{'heart_rate': '[57.51, 68.78]'}",0.66
+"{'skin_temprature': '[33.0, 33.0]'}","{'respiration_rate': '[14.0, 16.97]'}",0.66
+"{'skin_temprature': '[33.0, 33.0]'}","{'temperature': '[23.61, 25.1]'}",0.51
+"{'skin_temprature': '[34.0, 34.0]'}",{'location': 'indoors'},0.97
+"{'skin_temprature': '[34.0, 34.0]'}",{'activity': 'resting'},0.71
+"{'skin_temprature': '[34.0, 34.0]'}","{'heart_rate': '[57.51, 68.78]'}",0.67
+"{'skin_temprature': '[34.0, 34.0]'}","{'respiration_rate': '[14.0, 16.97]'}",0.67
+"{'skin_temprature': '[34.0, 34.0]'}","{'temperature': '[28.15, 29.94]'}",0.51
+"{'skin_temprature': '[34.0, 34.0]'}","{'humidity': '[42.67, 46.25]'}",0.62
+"{'temperature': '[28.15, 29.94]'}",{'location': 'indoors'},1.0
+"{'temperature': '[28.15, 29.94]'}",{'activity': 'resting'},0.59
+"{'temperature': '[28.15, 29.94]'}","{'heart_rate': '[57.51, 68.78]'}",0.71
+"{'temperature': '[28.15, 29.94]'}","{'respiration_rate': '[14.0, 16.97]'}",0.71
+"{'temperature': '[28.15, 29.94]'}","{'humidity': '[42.67, 46.25]'}",0.63
+"{'temperature': '[11.88, 19.0]'}",{'location': 'outdoors'},1.0
+"{'temperature': '[11.88, 19.0]'}",{'activity': 'walking'},0.75
+"{'temperature': '[11.88, 19.0]'}","{'heart_rate': '[101.89, 113.33]'}",0.75
+"{'temperature': '[11.88, 19.0]'}","{'blood_pressure': '[86.7, 96.5]'}",0.61
+"{'temperature': '[11.88, 19.0]'}","{'respiration_rate': '[25.09, 27.95]'}",0.75
+"{'temperature': '[26.6, 28.12]'}",{'location': 'indoors'},1.0
+"{'temperature': '[26.6, 28.12]'}",{'activity': 'resting'},0.65
+"{'temperature': '[26.6, 28.12]'}","{'heart_rate': '[57.51, 68.78]'}",0.67
+"{'temperature': '[26.6, 28.12]'}","{'respiration_rate': '[14.0, 16.97]'}",0.67
+"{'temperature': '[26.6, 28.12]'}","{'skin_temprature': '[34.79, 35.49]'}",0.61
+"{'temperature': '[26.6, 28.12]'}","{'humidity': '[42.67, 46.25]'}",0.55
+"{'temperature': '[-4.76, 3.24]'}",{'location': 'outdoors'},1.0
+"{'temperature': '[-4.76, 3.24]'}",{'activity': 'walking'},0.9
+"{'temperature': '[-4.76, 3.24]'}","{'heart_rate': '[101.89, 113.33]'}",0.9
+"{'temperature': '[-4.76, 3.24]'}","{'blood_pressure': '[86.7, 96.5]'}",0.86
+"{'temperature': '[-4.76, 3.24]'}","{'respiration_rate': '[25.09, 27.95]'}",0.9
+"{'temperature': '[3.3, 10.59]'}",{'location': 'outdoors'},1.0
+"{'temperature': '[3.3, 10.59]'}",{'activity': 'walking'},0.7
+"{'temperature': '[3.3, 10.59]'}","{'heart_rate': '[101.89, 113.33]'}",0.7
+"{'temperature': '[3.3, 10.59]'}","{'blood_pressure': '[86.7, 96.5]'}",0.7
+"{'temperature': '[3.3, 10.59]'}","{'respiration_rate': '[25.09, 27.95]'}",0.7
+"{'temperature': '[23.61, 25.1]'}",{'location': 'indoors'},1.0
+"{'temperature': '[23.61, 25.1]'}",{'activity': 'resting'},0.65
+"{'temperature': '[23.61, 25.1]'}","{'heart_rate': '[57.51, 68.78]'}",0.69
+"{'temperature': '[23.61, 25.1]'}","{'respiration_rate': '[14.0, 16.97]'}",0.69
+"{'temperature': '[23.61, 25.1]'}","{'skin_temprature': '[31.74, 32.16]'}",0.53
+"{'humidity': '[37.2, 39.91]'}","{'temperature': '[23.61, 25.1]'}",0.69
+"{'temperature': '[20.34, 22.43]'}",{'location': 'indoors'},1.0
+"{'temperature': '[20.34, 22.43]'}",{'activity': 'resting'},0.71
+"{'temperature': '[20.34, 22.43]'}","{'heart_rate': '[57.51, 68.78]'}",0.69
+"{'temperature': '[20.34, 22.43]'}","{'respiration_rate': '[14.0, 16.97]'}",0.69
+"{'temperature': '[20.34, 22.43]'}","{'skin_temprature': '[31.74, 32.16]'}",0.54
+"{'humidity': '[64.63, 68.75]'}",{'location': 'outdoors'},1.0
+"{'humidity': '[64.63, 68.75]'}",{'activity': 'walking'},0.79
+"{'humidity': '[64.63, 68.75]'}","{'heart_rate': '[101.89, 113.33]'}",0.79
+"{'humidity': '[64.63, 68.75]'}","{'blood_pressure': '[86.7, 96.5]'}",0.72
+"{'humidity': '[64.63, 68.75]'}","{'respiration_rate': '[25.09, 27.95]'}",0.79
+"{'humidity': '[64.63, 68.75]'}","{'temperature': '[3.3, 10.59]'}",0.52
+"{'humidity': '[45.37, 49.45]'}",{'location': 'outdoors'},1.0
+"{'humidity': '[45.37, 49.45]'}",{'activity': 'walking'},0.79
+"{'humidity': '[45.37, 49.45]'}","{'heart_rate': '[101.89, 113.33]'}",0.79
+"{'humidity': '[45.37, 49.45]'}","{'blood_pressure': '[86.7, 96.5]'}",0.76
+"{'humidity': '[45.37, 49.45]'}","{'respiration_rate': '[25.09, 27.95]'}",0.79
+"{'humidity': '[32.98, 35.27]'}",{'location': 'indoors'},1.0
+"{'humidity': '[32.98, 35.27]'}",{'activity': 'resting'},0.68
+"{'humidity': '[32.98, 35.27]'}","{'heart_rate': '[57.51, 68.78]'}",0.68
+"{'humidity': '[32.98, 35.27]'}","{'respiration_rate': '[14.0, 16.97]'}",0.68
+"{'humidity': '[27.1, 31.68]'}",{'location': 'indoors'},1.0
+"{'humidity': '[27.1, 31.68]'}",{'activity': 'resting'},0.69
+"{'humidity': '[27.1, 31.68]'}","{'heart_rate': '[57.51, 68.78]'}",0.68
+"{'humidity': '[27.1, 31.68]'}","{'respiration_rate': '[14.0, 16.97]'}",0.68
+"{'humidity': '[27.1, 31.68]'}","{'skin_temprature': '[31.74, 32.16]'}",0.54
+"{'humidity': '[27.1, 31.68]'}","{'temperature': '[20.34, 22.43]'}",0.59
+"{'humidity': '[42.67, 46.25]'}",{'location': 'indoors'},1.0
+"{'humidity': '[42.67, 46.25]'}",{'activity': 'resting'},0.65
+"{'humidity': '[42.67, 46.25]'}","{'heart_rate': '[57.51, 68.78]'}",0.7
+"{'humidity': '[42.67, 46.25]'}","{'respiration_rate': '[14.0, 16.97]'}",0.7
+"{'humidity': '[51.2, 55.81]'}",{'location': 'outdoors'},1.0
+"{'humidity': '[51.2, 55.81]'}",{'activity': 'walking'},0.72
+"{'humidity': '[51.2, 55.81]'}","{'heart_rate': '[101.89, 113.33]'}",0.72
+"{'humidity': '[51.2, 55.81]'}","{'blood_pressure': '[86.7, 96.5]'}",0.72
+"{'humidity': '[51.2, 55.81]'}","{'respiration_rate': '[25.09, 27.95]'}",0.72
+"{'humidity': '[37.2, 39.91]'}",{'location': 'indoors'},1.0
+"{'humidity': '[37.2, 39.91]'}",{'activity': 'resting'},0.62
+"{'humidity': '[37.2, 39.91]'}","{'heart_rate': '[57.51, 68.78]'}",0.7
+"{'humidity': '[37.2, 39.91]'}","{'respiration_rate': '[14.0, 16.97]'}",0.7
+"{'humidity': '[57.71, 62.67]'}",{'location': 'outdoors'},1.0
+"{'humidity': '[57.71, 62.67]'}",{'activity': 'walking'},0.79
+"{'humidity': '[57.71, 62.67]'}","{'heart_rate': '[101.89, 113.33]'}",0.79
+"{'humidity': '[57.71, 62.67]'}","{'blood_pressure': '[86.7, 96.5]'}",0.76
+"{'humidity': '[57.71, 62.67]'}","{'respiration_rate': '[25.09, 27.95]'}",0.79
+{'medication_rate': 0.75},"{'heart_rate': '[57.51, 68.78]'}",0.5
+{'medication_rate': 0.75},"{'respiration_rate': '[14.0, 16.97]'}",0.5
+{'medication_rate': 0.25},"{'heart_rate': '[57.51, 68.78]'}",0.76
+{'medication_rate': 0.25},"{'blood_pressure': '[86.7, 96.5]'}",0.65
+{'medication_rate': 0.25},"{'respiration_rate': '[14.0, 16.97]'}",0.76
+{'medication_rate': 0.25},"{'medicines': ""['Ramipril', 'Risperidon']""}",1.0
+{'medication_rate': 0.5},"{'heart_rate': '[57.51, 68.78]'}",0.62
+{'medication_rate': 0.5},"{'blood_pressure': '[86.7, 96.5]'}",0.65
+{'medication_rate': 0.5},"{'respiration_rate': '[14.0, 16.97]'}",0.62
+{'medication_rate': 0.5},"{'medicines': ""['Ramipril', 'Risperidon']""}",1.0
+{'medication_rate': 0.0},"{'blood_pressure': '[86.7, 96.5]'}",0.61
+{'medication_rate': 0.0},"{'medicines': ""['medicines not taken']""}",0.72
+"{'medicines': ""['Calcium', 'Hydrochlorothiazid']""}","{'blood_pressure': '[86.7, 96.5]'}",0.71
+"{'medicines': ""['Ramipril', 'Risperidon']""}","{'heart_rate': '[57.51, 68.78]'}",0.67
+"{'medicines': ""['Ramipril', 'Risperidon']""}","{'blood_pressure': '[86.7, 96.5]'}",0.66
+"{'medicines': ""['Ramipril', 'Risperidon']""}","{'respiration_rate': '[14.0, 16.97]'}",0.67
+"{'medicines': ""['Levothyroxin', 'Pantoprazol']""}","{'blood_pressure': '[86.7, 96.5]'}",0.67
+"{'medicines': ""['Tamsulosin', 'Zopiclon']""}","{'heart_rate': '[57.51, 68.78]'}",1.0
+"{'medicines': ""['Tamsulosin', 'Zopiclon']""}","{'blood_pressure': '[62.06, 76.74]'}",0.52
+"{'medicines': ""['Tamsulosin', 'Zopiclon']""}","{'respiration_rate': '[14.0, 16.97]'}",1.0
+"{'medicines': ""['Tamsulosin', 'Zopiclon']""}",{'medication_rate': 0.75},0.52
+"{'medicines': ""['medicines not taken']""}","{'blood_pressure': '[86.7, 96.5]'}",0.6

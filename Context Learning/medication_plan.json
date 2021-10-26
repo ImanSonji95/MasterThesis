@@ -1,0 +1,87 @@
+{
+   "medication_plan":{
+      "medicines":{
+         "medicine_1":{
+            "brandname_str":"L-thyroxin 75 mg",
+            "active_ingredient_str":"Levothyroxin",
+            "pzn":2532741.0,
+            "dosage_form_str":"Tabletten",
+            "dosage":75.0,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 1
+         },
+         "medicine_2":{
+            "brandname_str":"Calcimagon D3 Kautabletten",
+            "active_ingredient_str":"Calcium",
+            "pzn":1164726.0,
+            "dosage_form_str":"Kautabletten",
+            "dosage":500.0,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 1
+         },
+         "medicine_3":{
+            "brandname_str":"Pantoprazol Puren 40 mg",
+            "active_ingredient_str":"Pantoprazol",
+            "pzn":11357314.0,
+            "dosage_form_str":"Tablette",
+            "dosage":40.0,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 1
+         },
+         "medicine_4":{
+            "brandname_str":"RISPERIDON Aristo 0,5 mg",
+            "active_ingredient_str":"Risperidon",
+            "pzn":11258925.0,
+            "dosage_form_str":"Filmtablette",
+            "dosage":0.5,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 2
+         },
+         "medicine_5":{
+            "brandname_str":"TAMSULOSIN BASICS 0,4 mg",
+            "active_ingredient_str":"Tamsulosin",
+            "pzn":12529237.0,
+            "dosage_form_str":"Hartkapsel",
+            "dosage":0.4,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 1
+         },
+         "medicine_6":{
+            "brandname_str":"Zopiclon AbZ 7,5 mg",
+            "active_ingredient_str":"Zopiclon",
+            "pzn":1830790.0,
+            "dosage_form_str":"Filmtabletten",
+            "dosage":7.5,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 1
+         },
+         "medicine_7":{
+            "brandname_str":"HCT Dexcel 25 mg",
+            "active_ingredient_str":"Hydrochlorothiazid",
+            "pzn":7745996.0,
+            "dosage_form_str":"Tabletten",
+            "dosage":25.0,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 1
+         },
+         "medicine_8":{
+            "brandname_str":"Ramilich 10 mg",
+            "active_ingredient_str":"Ramipril",
+            "pzn":1983677.0,
+            "dosage_form_str":"Tabletten",
+            "dosage":10.0,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 1
+         },
+         "medicine_9":{
+            "brandname_str":"RISPERIDON HEXAL 1 mg",
+            "active_ingredient_str":"Risperidon",
+            "pzn":4156236.0,
+            "dosage_form_str":"Filmtablette",
+            "dosage":1.0,
+            "dosageUnit_str":"mg",
+            "dose_per_day": 1
+         }
+      }
+   }
+}
