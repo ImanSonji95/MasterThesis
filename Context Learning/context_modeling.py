@@ -15,34 +15,29 @@ import re
 import numpy as np
 import pandas as pd
 from itertools import compress
-from db_communication import *
 
 
 user = 'neo4j'
-# local connection
-uri = "neo4j://localhost:7687"
+uri = "neo4j://localhost:11005"
 password = "middleware"
-# remote connection neo4j Aura
-uri_aura = 'neo4j+s://9355a9d4.databases.neo4j.io'
-password_aura = 'pdtjOyCoIHd2UyynGkzbQHozE46jmClHCTGrQsNKxT0'
 
 
-data_url = 'Data Generation/generated_datasets/'
+data_url = 'generated_datasets/'
 # sampling rates of data
 SAMPLES_NUM_vitals = 288  # vitals sampled every 5 minutes
 SAMPLES_NUM_env = 24  # environmental data sampled every one hour
 
 
 class App:
-    def __init__(self, uri, user, key):
-        self.driver = GraphDatabase.driver(uri, auth=(user, key))
+    def __init__(self, uri, user, password):
+        self.driver = GraphDatabase.driver(uri, auth=(user, password))
 
     def close(self):
         # Don't forget to close the driver connection when you are finished with it
         self.driver.close()
 
     def create_vital_node(self, name, graph_type, time, value, unit):
-        with self.driver.session() as session:
+        with self.driver.session(database='middleware') as session:
             session.write_transaction(
                 self._create_vital_node, name, graph_type, time, value, unit)
 
@@ -59,7 +54,7 @@ class App:
 
     
     def create_medicines(self, name, graph_type, medicines, dosages, doses_per_day):
-        with self.driver.session() as session:
+        with self.driver.session(database='middleware') as session:
             session.write_transaction(
                 self._create_medicines, name, graph_type, medicines, dosages, doses_per_day)
 
@@ -78,7 +73,7 @@ class App:
 
 
     def create_env_node(self, name, graph_type, time, value, main_node):
-        with self.driver.session() as session:
+        with self.driver.session(database='middleware') as session:
             session.write_transaction(
                 self._create_env_node, name, graph_type, time, value, main_node)
 
@@ -97,7 +92,7 @@ class App:
 
     
     def create_medication_intake_node(self, name, graph_type, medicines_taken, triggered_times, opened_times):
-        with self.driver.session() as session:
+        with self.driver.session(database='middleware') as session:
             session.write_transaction(
                 self._create_medication_intake_node, name, graph_type, medicines_taken, triggered_times, opened_times)
 
@@ -116,7 +111,7 @@ class App:
 
         
     def create_activity_node(self, name, graph_type, value, main_node):
-        with self.driver.session() as session:
+        with self.driver.session(database='middleware') as session:
             session.write_transaction(
                 self._create_activity_node, name, graph_type, value, main_node)
 
@@ -135,7 +130,7 @@ class App:
 
     
     def create_daily_activity(self, name, graph_type, activity, activity_start_time):
-        with self.driver.session() as session:
+        with self.driver.session(database='middleware') as session:
             session.write_transaction(
                 self._create_daily_activity, name, graph_type, activity, activity_start_time)
 
@@ -173,7 +168,7 @@ def model_vitals(app_instance):
 
 def model_medical_profile(app_instance):
     # read medication_plan json file
-    f = open('Context Learning/medication_plan.json')
+    f = open('medication_plan.json')
     medicaiton_plan = json.load(f)
     medicines = []
     dosages = []
@@ -250,9 +245,9 @@ def model_daily_activity(app_instance):
             daily_activity = row['daily_activity']
             act_start_time = row['activity_start_time']
             app_instance.create_daily_activity('daily_activity', current_date, daily_activity, act_start_time)
+            
 
-
-if __name__ == "__main__":
+def model_context():
     app = App(uri, user, password)
     start_time = time.time()
     # Model data
@@ -265,4 +260,8 @@ if __name__ == "__main__":
     print("Context is Modeled --- %s seconds ---" % (time.time() - start_time))
     # Close connection
     app.close()
+    
+
+if __name__ == "__main__":
+    model_context()
     

@@ -8,7 +8,7 @@ from sklearn.mixture import GaussianMixture
 import math
 from db_communication import *
 import re
-import csv
+
 
 """
 Functions for finding association rules.
@@ -94,6 +94,8 @@ def get_freq_itemset(combs, keyTotalCount, minSup):
         current_keys = [next(iter(item[x].keys())) for x in range(2)]
         current_itemSet = [next(iter(item[x].values())) for x in range(2)]
         # find the occurent count of each combination from neo4j graph
+        # TODO
+        # replace by get_timed_relations()
         timestamps_first_item_query = (
             'MATCH (n:Context {name: $current_itemSet})-[r]-(m:end_parameter {name: $current_keys}) RETURN type(r)'
         )
@@ -117,7 +119,7 @@ def get_freq_itemset(combs, keyTotalCount, minSup):
         if (support >= minSup):
             # add current keys and current itemset
             freq_itemsets.append(item)
-            support_count.append(occ_count)
+            support_count.append(support)
     return freq_itemsets, support_count
     
 
@@ -127,7 +129,6 @@ def get_association_rules(freq_itemsets, itemSet_support, freqOneItemSets, min_c
     for item in freqOneItemSets.values():
         oneItemSets_list.extend(item)
 
-
     for itemSet, itemSupport in zip(freq_itemsets, itemSet_support):
         current_itemSet = [next(iter(itemSet[x].values())) for x in range(2)]
         item_sup = itemSupport
@@ -136,7 +137,7 @@ def get_association_rules(freq_itemsets, itemSet_support, freqOneItemSets, min_c
         confidence = float(item_sup/x_sup)
         if (confidence > min_confidence and confidence <= 1):
             rules.append([itemSet, confidence])
-
+            
     return rules
 
 
@@ -224,6 +225,33 @@ def update_meta_model(df_rules):
                     min_max_values = list(thresholds.split(","))
                     # write threshold to meta model
                     write_threshold_meta_model(activity, vital, min_max_values)
+
+
+# This function to create weighted relationships in the context model based on the learned correlations
+def reflect_learning_in_context_model():
+    # get correlations from weighted graph
+    correlations = get_correlations().data()
+    source_nodes = [result['n.name'] for result in correlations]
+    destiny_nodes = [result['m.name'] for result in correlations]
+    weights = [result['r.weight'] for result in correlations]
+    combined = zip(source_nodes, destiny_nodes, weights)
+    # for each correlation, find the nodes in the context model
+    for source, destiny, weight in combined:
+        relation_weight = float(weight)
+        if relation_weight >= 0.4:
+            source_category, source_value = source.split(':')[0], source.split(':')[1][1:]
+            destiny_category, destiny_value = destiny.split(':')[0], destiny.split(':')[1][1:]
+            # get common relationships (co-occuring nodes)
+            source_ts = get_timed_relations(source_category, source_value).data()
+            destiny_ts = get_timed_relations(destiny_category, destiny_value).data()
+            source_ts_list = [d['type(r)'] for d in source_ts]
+            destiny_ts_list = [d['type(r)'] for d in destiny_ts]
+            common_ts = [element for element in source_ts_list if element in destiny_ts_list]
+            for ts in common_ts:
+                # create relationship
+                create_relationship_context_model(source_category, source_value,
+                                                destiny_category, destiny_value, relation_weight, ts)
+
 
 """
 Functions for clustering vitals and environmental data

@@ -64,12 +64,8 @@ def learning(min_support, min_confidence, k):
     freqSets, itemSetSupport = get_freq_itemset(combinations, keyTotalCount, min_support)
     # get rules
     rules = get_association_rules(freqSets, itemSetSupport, freqOneItemSet, min_confidence)
-    # prune association rules
-    # TODO  
-    # prune afer removing duplicates
     df_rules = create_df_rules(rules)
     df_reduced_rules, reduced_rules = remove_duplicated_rules(df_rules)
-    prune_rules(reduced_rules)
     return df_reduced_rules
 
 
@@ -117,4 +113,8 @@ if __name__ == "__main__":
     # This function needs to be optimized.
     # detect_anomalies()
     print("Anomalies detected --- %s seconds ---" % (time.time() - start_time))
+
+    reflect_learning_in_context_model()
+    print("Relationships added to graph --- %s seconds ---" % (time.time() - start_time))
+
     

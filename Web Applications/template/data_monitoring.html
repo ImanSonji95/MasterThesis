@@ -1,102 +1,100 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Data Monitoring</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src='Chart.min.js'></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <style>
+            body {
+                font: 8pt arial;
+            }
 
-<head>
-  <meta charset="utf-8" />
-  <title>Data Monitoring</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src='Chart.min.js'></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <style>
-    body {
-      font: 8pt arial;
+            .tags {
+                display: grid;
+                grid-auto-flow: row;
+                grid-row-gap: 10px;
+                font-size: 12pt;
+            }
+            .flex {
+                display: flex;
+                justify-content: center;
+            }
+            .flex_1{
+                display: flex;
+                justify-content: left;
+            }
+            #plotly-medication-adherence {
+                /* border-style: dotted;
+                margin-left: 340px; */
+                display:inline-block;
+            }
+            #plotly-medicines-table {
+                display:inline-block; 
+                /* margin-right: 5px; */
+            }
+            #plotly-vitals{
+                margin-left: 80px;
+            }
+
+
+        </style>
+
+    </head>
+
+    <body onload="onload_function()">
+        <h1>Patient Name: <span id="place_for_name"></span></h1>
+        <div class="tags">
+            <div> <b>Age: </b> <span id="place_for_age"></span></div>
+            <div> <b>Gender: </b> <span id="place_for_gender"></span></div>
+            <div> <b>Weight: </b> <span id="place_for_weight"></span></div>
+          </div>
+        <h1>Patient Data:</h1>
+        <div class="flex">
+            <div id="plotly-medication-adherence"></div>
+            <div id="plotly-medicines-table"></div>
+        </div>
+        <div id="plotly-vitals" ></div>
+        <div class="flex_1">
+            <div id="plotly-anomalies"></div>
+        </div>
+        <div class="flex_1">
+            <div id="plotly-medication-anomalies"></div>
+        </div>
+        <div class="flex_1">
+            <div id="plotly-normal-vitals"></div>
+        </div>
+        
+
+    </body>
+
+    <script>
+    
+    function onload_function() {
+        document.getElementById("place_for_name").innerHTML = "{{name}}";
+        document.getElementById("place_for_gender").innerHTML = "{{gender}}";
+        document.getElementById("place_for_age").innerHTML = "{{age}}";
+        document.getElementById("place_for_weight").innerHTML = "{{weight}}";s
     }
 
-    .tags {
-      display: grid;
-      grid-auto-flow: row;
-      grid-row-gap: 10px;
-      font-size: 12pt;
-    }
+    var medicines_table = {{ med_table | safe}};
+    Plotly.plot('plotly-medicines-table', medicines_table, {});
 
-    .multiselect {
-      width: 200px;
-      margin-top: 0.2cm;
-      font-size: 10pt;
-    }
+    var graph_medication_adherence = {{ med_plot_json | safe}};
+    Plotly.plot('plotly-medication-adherence', graph_medication_adherence, {});
 
-    .flex {
-      display: flex;
-      justify-content: center;
-    } 
+    var graph_vitals = {{ vitals_plot_json | safe }};
+    Plotly.plot('plotly-vitals', graph_vitals, {});
 
-    #checkboxes {
-      font-size: 12pt;
-    }
+    var anomalies_table = {{ vitals_table_json | safe}};
+    Plotly.plot('plotly-anomalies', anomalies_table, {});
 
-    #checkboxes label {
-      padding-left: 0.4cm;
-      padding-bottom: 5cm;
-      margin-bottom: 5cm;
-    }
+    var medication_anomalies_table = {{ medication_table_json | safe}};
+    Plotly.plot('plotly-medication-anomalies', medication_anomalies_table, {});
 
-    #myChart {
-      /* margin-left: 400px;
-         border-style: dotted; */
-      float: right;
-      margin-right: 300px;
-    }
-    #plotly-table {
-      display:inline-block; 
-      /* margin-right: 5px; */
-    }
-    #plotly-timeseries-medication {
-      /* border-style: dotted;
-      margin-left: 340px; */
-      display:inline-block;
-    }
-    #plotly-timeseries-vitals{
-      margin-left: 80px;
-    }
-  </style>
-</head>
+    var graph_normal_vitals = {{ normal_vitals_json | safe}};
+    Plotly.plot('plotly-normal-vitals', graph_normal_vitals, {});
 
-<body onload="onload_function()">
-  <h1>Patient Name: <span id="place_for_name"></span></h1>
-  <div class="tags">
-    <div> <b>Age: </b> <span id="place_for_age"></span></div>
-    <div> <b>Gender: </b> <span id="place_for_gender"></span></div>
-    <div> <b>Weight: </b> <span id="place_for_weight"></span></div>
-    <div> <b>Birthdate: </b> <span id="place_for_birthdate"></span></div>
-  </div>
-  <h1>Patient Data:</h1>
-  <div class="flex">
-    <div id="plotly-timeseries-medication"></div>
-    <div id="plotly-table"></div>
-  </div>
-  <div id="plotly-timeseries-vitals" ></div>
-
-</body>
-<script>
-
-
-  function onload_function() {
-    document.getElementById("place_for_name").innerHTML = "{{name}}";
-    document.getElementById("place_for_gender").innerHTML = "{{gender}}";
-    document.getElementById("place_for_age").innerHTML = "{{age}}";
-    document.getElementById("place_for_weight").innerHTML = "{{weight}}";
-    document.getElementById("place_for_birthdate").innerHTML = "{{birthdate}}";
-  }
-
-  var table = {{ med_table | safe}};
-  Plotly.plot('plotly-table', table, {});
-  
-  var graph_medication = {{ med_plot_json | safe}};
-  Plotly.plot('plotly-timeseries-medication', graph_medication, {});
-
-  var graph_vitals = {{ plot_json | safe }};
-  Plotly.plot('plotly-timeseries-vitals', graph_vitals, {});
-
-</script>
-
+    </script>
 </html>

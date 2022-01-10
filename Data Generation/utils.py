@@ -152,8 +152,8 @@ def generate_normal_vitals(night_range, morning_range, noon_range,evening_range)
 def generate_abnormal_vitals(night_range, morning_range, noon_range,evening_range):
     # heart rate
     heart_rate.extend(helpers.generate_random_data(63.5, 5.6, night_range))
-    heart_rate.extend(helpers.generate_random_data(110.5, 5.6, morning_range))
-    heart_rate.extend(helpers.generate_random_data(90.1, 5.2, noon_range))
+    heart_rate.extend(helpers.generate_random_data(100.5, 5.6, morning_range))
+    heart_rate.extend(helpers.generate_random_data(120.1, 5.2, noon_range))
     heart_rate.extend(helpers.generate_random_data(63.5, 5.6, evening_range))
     # blood pressure
     blood_pressure.extend(helpers.generate_random_data(80.1, 9.8, night_range))
@@ -231,7 +231,7 @@ def generate_vitals():
             # generate_normal_medication_times(day)
         else:
             heart_rate, blood_pressure = generate_abnormal_vitals(night_range, morning_range, noon_range, evening_range)
-            if np.random.uniform(0, 1) <= 0.5:             
+            if np.random.uniform(0, 1) <= 0.1:             
                 generate_normal_adherence()
                 # generate_normal_medication_times(day)
             else: 
@@ -259,7 +259,7 @@ def generate_vitals():
     skin_temperature = np.random.normal(loc=33, scale=0.5, size=len(date_range))
     for index, row in environmental_data.iterrows():
         if row['indoor_temperature'] > 27:
-            skin_temperature[index * VITALS_ENV_RATIO:index* VITALS_ENV_RATIO + 8] *= 1.07
+            skin_temperature[index * VITALS_ENV_RATIO:index * VITALS_ENV_RATIO + 8] *= 1.07
     vitals_df['skin_temprature'] = skin_temperature
     # write medication adherence
     write_medication_adherence()
@@ -297,7 +297,7 @@ def generate_medication_times():
         else:
             generate_abnormal_medication_times()
         if (medication[4] == 1):
-            generate_normal_medication_times('13:00:00', medication[0], n=59)
+            generate_normal_medication_times('13:00:00', medication[0], n=180)
         else:
             generate_abnormal_medication_times()
         if (medication[6] == 1):

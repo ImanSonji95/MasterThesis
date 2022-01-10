@@ -8,12 +8,14 @@
 from py2neo import Graph
 
 # local connection
-uri = "neo4j://localhost:11005"
+uri = "neo4j://localhost:7687"
 username = "neo4j"
 password = "middleware"
 
 # initialize neo4j conenction
-graph = Graph(uri=uri, user=username, password=password)
+graph = Graph(uri=uri, auth=(username, password))
+# graph_2 = Graph(uri=uri, auth=(username, password), name='middleware')
+
 
 def get_meta_nodes():
     query = """
@@ -24,11 +26,13 @@ def get_meta_nodes():
 
 def create_node(context_1, context_2, weight):
     query = (
-        "MERGE (n:Context:Correlation {name: $context_1}) "
-        "MERGE (m:Context:Correlation {name: $context_2}) "
+        "MERGE (n:Correlation {name: $context_1}) "
+        "MERGE (m:Correlation {name: $context_2}) "
         "CREATE (n)-[r:RELATED_TO {weight: $weight}]->(m)"       
     )
+
     graph.run(query, context_1=context_1, context_2=context_2, weight=weight)
+    # graph_2.run(query, context_1=context_1, context_2=context_2, weight=weight)
     
 
 def get_vitals_nodes():
@@ -101,3 +105,31 @@ def set_vital_anomalous(node_name, timestamp):
     )
 
     graph.run(query, node_name=node_name)
+
+
+def get_correlations():
+    query = (
+        "MATCH (n:Correlation)-[r]->(m:Correlation) "
+        "RETURN n.name, m.name, r.weight"
+    )
+    return graph.run(query)
+
+
+def get_timed_relations(category, value):
+    query = (
+        "MATCH (n {name: $category})-[r]-(m:Context {name: $value}) RETURN type(r)"
+    )
+    return graph.run(query, category=category, value=value)
+
+
+def create_relationship_context_model(source_category, source_value, destiny_category, destiny_value, relation_weight, ts):
+    query = (
+        "MATCH (a {name: $source_category})-[r:" + ts + "]-(b:Context {name: $source_value}) "
+        "MATCH (c {name: $destiny_category})-[s:" + ts + "]-(d:Context {name: $destiny_value}) "
+        "WITH b, d "
+        "CREATE (b)-[t:RELATED_TO {weight: $relation_weight}]->(d)"
+    )
+
+    graph.run(query, source_category=source_category, source_value=source_value, destiny_category=destiny_category,
+            destiny_value=destiny_value, relation_weight=relation_weight, ts=ts)
+

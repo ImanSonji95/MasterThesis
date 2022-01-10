@@ -77,20 +77,19 @@
             <option value="2">Context Model</option>
             <option value="3">System Overview</option>
             <option value="4">Context Model Instant</option>
-            <option value="5">History of Node</option>
-            <option value="6">Context Correlations</option>
+            <option value="5">Context Correlations</option>
          </select>
       </div>
-      <input type="date" id="start" name="trip-start"
+      <input type="datetime-local" id="start" name="trip-start"
          value="2021-07-12"
-         min="2021-07-12" max="2022-12-31">
+         min="2021-07-12T00:00" max="2022-12-31T00:00">
       <!-- <button id="button" onclick="context_model_instant()">Submit</button> -->
       <input id="button" type="submit" value="Submit" onclick="context_model_instant();" />
       <p1 id="meta_model_id">Information! The meta model is a description of the data model. It describes what information
         avilable in the context model and how they are interconnected.
       </p1>
-      <p2 id="context_model_id">Information! <br> Number of nodes: 34,510 
-        <br> Number of relationships: 34,600
+      <p2 id="context_model_id">Information! <br> Number of nodes: 34,565 
+        <br> Number of relationships: 86,803
       </p2>
       <p3 id="correlation_id">Information! Weighted graph that shows correlations between different contexts obtained
         by the context learning model.
@@ -101,7 +100,7 @@
       function draw_graph(labels, relations, cypher_query) {
         var config = {
           container_id: "viz",
-          server_url: "neo4j://localhost:11005",
+          server_url: "neo4j://localhost:7687",
           server_user: "neo4j",
           server_password: "middleware",
           labels: labels,
@@ -124,11 +123,11 @@
           meta_mode_info.style.display = "inline-block";
           context_model_info.style.display = "none";
           labels = {
-            "META": {
+            "static": {
               "caption": "name",
               "size": 0.8
             },
-            "user_content_view": {
+            "end_parameter": {
               "caption": "name",
               "size": 0.8
             },
@@ -145,7 +144,7 @@
             }
           }
           relationships = {}
-          cypher_query = 'MATCH p=(n:META)-[r]-(m:META) RETURN p'
+          cypher_query = 'MATCH p=(n:static)-[r]-(m:static) RETURN p'
           draw_graph(labels, relationships, cypher_query)
         }
         else if (menu == "2") {
@@ -182,30 +181,30 @@
           meta_mode_info.style.display = "none";
           context_model_info.style.display = "none";
         }
+        // else if (menu == 5){
+        //   datePicker.style.display = "none";
+        //   b.style.display = "none";
+        //   meta_mode_info.style.display = "none";
+        //   context_model_info.style.display = "none";
+        //   labels = {
+        //     "Delta": {
+        //       "caption": "name",
+        //       "title_properties": ["Graph_Type", "mean"]
+        //     },
+        //     "user_content_view": {
+        //       "caption": "name",
+        //       "title_properties": ["Graph_Type", "mean"]
+        //     },
+        //     "Context": {
+        //       "caption": "name",
+        //       "title_properties": ["Graph_Type", "mean"]
+        //     }
+        //   }
+        //   relationships = {}
+        //   cypher_query = 'MATCH (a:Context)-[r]-(b:Context) WHERE a.name= b.corresponding_node = "heart_rate" RETURN *'
+        //   draw_graph(labels, relationships, cypher_query)
+        // }
         else if (menu == 5){
-          datePicker.style.display = "none";
-          b.style.display = "none";
-          meta_mode_info.style.display = "none";
-          context_model_info.style.display = "none";
-          labels = {
-            "Delta": {
-              "caption": "name",
-              "title_properties": ["Graph_Type", "mean"]
-            },
-            "user_content_view": {
-              "caption": "name",
-              "title_properties": ["Graph_Type", "mean"]
-            },
-            "Context": {
-              "caption": "name",
-              "title_properties": ["Graph_Type", "mean"]
-            }
-          }
-          relationships = {}
-          cypher_query = 'MATCH (a:Context)-[r]-(b:Context) WHERE a.name= b.corresponding_node = "heart_rate" RETURN *'
-          draw_graph(labels, relationships, cypher_query)
-        }
-        else if (menu == 6){
           datePicker.style.display = "none";
           b.style.display = "none";
           meta_mode_info.style.display = "none";
@@ -241,12 +240,21 @@
             },
             "static": {
               "caption": "name"
+            },
+            "Context": {
+              "caption": "name"
             }
           }
-          relationships = {}
-          cypher_query = 'MATCH (n:user:Init_Graph)-[r:HAS_A]-(m:Context {Graph_Type: "2021-03-15"})-\
-          [q]-(f:Context:static {Graph_Type: "2021-03-15"})-[h]-\
-          (g:Context {Graph_Type:"' + date + '"})  return *'
+          relationships = {
+            "RELATED_TO": {
+            }
+          }
+          // cypher_query = 'MATCH (n:user:Init_Graph)-[r:HAS_A]-(m:Context {Graph_Type: "2021-03-15"})-\
+          // [q]-(f:Context:static {Graph_Type: "2021-03-15"})-[h]-\
+          // (g:Context {Graph_Type:"' + date + '"})  return *'
+          date_formatted = '_' + String(date).replaceAll('-', '_');
+          date_formatted = date_formatted.slice(0, -3);
+          cypher_query = 'MATCH (u:user)-[f]-(a:static)-[b]-(c:static)-[d:' + date_formatted + ']-(e)-[g:RELATED_TO]-(h) RETURN *'
           draw_graph(labels, relationships, cypher_query);      
       }
    </script>
