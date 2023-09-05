@@ -57,7 +57,7 @@ def get_normal_vitals_activity():
                                 fill_color='paleturquoise',
                                 align='left',
                                 height=33),
-                    cells=dict(values=[list(activity_thresholds.keys()), 
+                    cells=dict(values=[list(activity_thresholds.keys()),
                                [json.dumps(s) for s in activity_thresholds.values()]],
                     fill_color='lavender',
                     align='left',
@@ -66,7 +66,7 @@ def get_normal_vitals_activity():
                 ])
     fig.update_layout(title_text='Normal Vitals Range', title_x=0.5, width=800)
     normal_vitals = json.dumps(fig, cls=PlotlyJSONEncoder)
-    return normal_vitals
+    return normal_vitals, activity_thresholds
 
 
 def get_medicines():
@@ -82,7 +82,7 @@ def get_medicines():
         doses_per_day.append(data['medicine_' + str(i)]['dose_per_day'])
 
     doses = [str(x) + ' mg ' + str(y) + ' times per day' for x, y in zip(dosages, doses_per_day)]
-    
+
     # calculate medication adherence
     df = pd.read_csv(data_url + 'medication.csv')
     A = df.columns.difference(['date'])
@@ -118,7 +118,7 @@ def bool_to_string(A):
 
 def get_medication_adherence():
     med_df = pd.read_csv(data_url + 'medication.csv')
-    
+
     # get medicines list
     f = open('Context Learning/medication_plan.json')
     medicaiton_plan = json.load(f)
@@ -129,7 +129,7 @@ def get_medication_adherence():
 
     A = med_df[medicines_list]
     A =  A.values.T
-    # groups = list(med_df.columns.difference(['date']))                 
+    # groups = list(med_df.columns.difference(['date']))
     fig = go.Figure(data=go.Heatmap(z=A, y=medicines_list, x=med_df['date'], coloraxis='coloraxis',
                                     xgap=1, ygap=1, customdata=bool_to_string(A)))
     fig.update_layout(title_text='Medication Adherence', title_x=0.5,
@@ -154,10 +154,10 @@ def get_vitals_analysis():
     # create list of outlier_dates
     outlier_dates = resulted_df[resulted_df['Anomaly'] == 1].index
     y_values = [resulted_df.loc[i]['heart_rate'] for i in outlier_dates]
-    fig.add_trace(go.Scatter(x=outlier_dates, y=y_values, mode = 'markers', 
-                name = 'Anomaly', 
+    fig.add_trace(go.Scatter(x=outlier_dates, y=y_values, mode = 'markers',
+                name = 'Anomaly',
                 marker=dict(color='red',size=10)))
-    fig.update_layout(title_text='User Vitals & Activity', title_x=0.5, 
+    fig.update_layout(title_text='User Vitals & Activity', title_x=0.5,
                       width=850, height=400, autosize=True)
 
     vitals_plot_json = json.dumps(fig, cls=PlotlyJSONEncoder)
@@ -186,7 +186,7 @@ def detect_anomalies(vitals_df):
     # set timestamp to index
     data.set_index('timestamps', drop=True, inplace=True)
 
-    # resample timeseries to hourly 
+    # resample timeseries to hourly
     data = data.resample('H').sum()
 
     # creature features from date
@@ -219,25 +219,47 @@ def get_heart_rate_analysis():
     heart_rate_values = anomalies_df.loc[anomalies_df['Anomaly'] == 1, 'heart_rate']
     heart_rate_values = list(map(lambda x: int(x), heart_rate_values))
     possible_causes = []
-    for ts in timestamps:
+    related_context = []
+    quality_list = []
+    for ts, value in zip(timestamps, heart_rate_values):
         # find co-occurring nodes
-        day = datetime.datetime.strptime(ts, '%Y-%m-%d %H:%M:%S').strftime('_%Y_%m_%dT%H')
-        cooccuring_nodes = get_cooccurring_nodes('heart_rate', day)
-        possible_causes.append(cooccuring_nodes)
+        current_date = datetime.datetime.strptime(ts, '%Y-%m-%d %H:%M:%S').strftime('_%Y_%m_%dT%H')
+        previous_date = datetime.datetime.strptime(ts, '%Y-%m-%d %H:%M:%S') - datetime.timedelta(hours=2)
+        previous_date = previous_date.strftime('_%Y_%m_%dT%H')
+        # get co-occuring and previous occuring nodes
+        cooccuring_related_nodes = get_related_cooccurring_nodes('heart_rate', current_date)
+        previous_related_nodes = get_related_cooccurring_nodes('heart_rate', previous_date)
+       
+        # compare current and previous nodes
+        common_nodes = [x for x in cooccuring_related_nodes if x not in previous_related_nodes]
+        related_nodes = [x for x in cooccuring_related_nodes if x not in common_nodes]
+        possible_causes.append(', '.join(common_nodes))
+        related_context.append(', '.join(related_nodes))
+
+        # check if heart rate higher or lower than normal range
+        current_activity = get_activity(current_date)
+        threshold = get_threshold('heart_rate', current_activity[0])
+        min = float(threshold[0][0])
+        max = float(threshold[0][1])
+        if value <= min:
+            quality_list.append('Low')
+        elif value >= max:
+            quality_list.append('High')
+        else:
+            quality_list.append('Normal')
 
     # draw table
-    fig = go.Figure(data=[go.Table(columnorder = [1,2, 3], columnwidth = [150, 80, 1000],
-                    header=dict(values=['Heart rate Anomalies', 'Value','Possible causes'],
+    fig = go.Figure(data=[go.Table(columnorder = [1,2, 3, 4, 5], columnwidth = [150, 80, 500, 500, 100],
+                    header=dict(values=['Heart rate Anomalies', 'Value','Possible causes', 'Related Context', 'Range'],
                                 fill_color='paleturquoise',
-                                height = 20,
                                 align='left'),
-                    cells=dict(values=[timestamps, heart_rate_values, possible_causes],
+                    cells=dict(values=[timestamps, heart_rate_values, possible_causes, related_context, quality_list],
                     fill_color='lavender',
-                    height = 20,
-                    align='left'
+                    align=['left', 'center', 'left', 'left'],
+                    height = 50
                     ))
                 ])
-    fig.update_layout(title_text='Heart Rate Analysis', title_x=0.5, width=1230)
+    fig.update_layout(title_text='Heart Rate Analysis', title_x=0.5, width=1330)
     heart_rate_analysis = json.dumps(fig, cls=PlotlyJSONEncoder)
     return heart_rate_analysis
 
@@ -255,20 +277,20 @@ def detect_medication_anomalies():
         day = datetime.datetime.strptime(ts, '%Y-%m-%d %H:%M').strftime('_%Y_%m_%dT%H')
         if (rate != 'null' and rate < 0.75):
             dates.append(day)
-            coocurring_nodes = get_cooccurring_nodes('medication_rate', day)
-            effects = [x for x in coocurring_nodes if 
+            coocurring_nodes = get_related_cooccurring_nodes('medication_rate', day)
+            effects = [x for x in coocurring_nodes if
                        any(y in x for y in ['heart_rate', 'blood_pressure', 'respiration_rate'])]
             if (len(effects) != 0):
                 vitals_effects.append(effects)
             else:
                 vitals_effects.append('No side effects found')
             if (rate == 0.5):
-                medication_times.append('Medication taken after 1 to 2 hours')
+                medication_times.append('Deviation by 1 to 2 hours')
             elif (rate == 0.25):
-                medication_times.append('Medication taken after 2 hours')
+                medication_times.append('Deviation by 2 hours')
             elif (rate == 0.0):
                 medication_times.append('Medication not taken')
-   
+
      # draw table
     fig = go.Figure(data=[go.Table(columnorder = [1, 2, 3], columnwidth = [150, 300, 800],
                     header=dict(values=['Medication Anomalies', 'Medication Time','Vitals Side Effects'],
@@ -298,14 +320,15 @@ def context_model():
 
 @app.route('/data_monitoring')
 def data_monitoring():
+    user = get_user_information()
     med_table = get_medicines()
     med_plot_json = get_medication_adherence()
+    normal_vitals_json = get_normal_vitals_activity()
     vitals_plot_json = get_vitals_analysis()
     vitals_table_json = get_heart_rate_analysis()
     medication_table_json = detect_medication_anomalies()
-    normal_vitals_json = get_normal_vitals_activity()
-    return render_template('data_monitoring.html', name="Mark", age=68, gender="Male", weight='82 Kg',
-                           med_table=med_table, med_plot_json=med_plot_json,
+    return render_template('data_monitoring.html', name=user[0]['name'], age=int(user[0]['age']), 
+                           gender=user[0]['gender'], weight=user[0]['weight'], med_table=med_table, med_plot_json=med_plot_json,
                            vitals_plot_json=vitals_plot_json, vitals_table_json=vitals_table_json,
                            medication_table_json=medication_table_json,
                            normal_vitals_json=normal_vitals_json)

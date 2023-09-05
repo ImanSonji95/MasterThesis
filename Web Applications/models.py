@@ -27,7 +27,7 @@ def get_user_information():
     MATCH (n:user:static) RETURN n.username as name, n.age as age,
     n.gender as gender, n.weight as weight
     '''
-    return graph.run(query)
+    return graph.run(query).data()
 
 
 def get_medical_profile_data():
@@ -116,6 +116,15 @@ def get_activities_nodes():
     return graph.run(query)
 
 
+def get_activity(ts):
+    query = (
+        "MATCH (n:user_parameter {name: 'activity'})-[r:" + ts + "]-(m) RETURN m.name"
+    )
+    result = graph.run(query).data()
+    activity = [record["m.name"] for record in result]
+    
+    return activity
+
 def find_vital_threshold(activity_node, vital_node):
     query = (
         "MATCH (n:Correlation {name: $activity_node})-[r:RELATED_TO]-(m:Correlation) "
@@ -151,7 +160,7 @@ def find_anomalous_heart_rate():
     return high_value_list, timestamps
 
 
-def get_cooccurring_nodes(node, timestamp):
+def get_related_cooccurring_nodes(node, timestamp):
     cooccurring_nodes = []
     query = (
         "MATCH (n {name: $node})-[r:" + timestamp + "]-(m)-[a:RELATED_TO]-(b)-[s:" + timestamp + "]-(d)"
@@ -189,3 +198,13 @@ def get_medication_nonadherence():
     result = graph.run(query).data()
     correlations = [record["m.name"] for record in result]
     print(correlations)
+
+
+# get thereshold for vital based on activity
+def get_threshold(vital_node, activity_node):
+    query = (
+        "MATCH (n:end_parameter {name: $vital_node}) return n." + activity_node
+    )
+    result = graph.run(query, vital_node=vital_node).data()
+    threshold = [record["n." + activity_node] for record in result]
+    return threshold
